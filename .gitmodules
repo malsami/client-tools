@@ -1,0 +1,6 @@
+[submodule "client-tools"]
+	path = client-tools
+	url = https://github.com/argos-research/client-tools
+[submodule "taskgen"]
+	path = taskgen
+	url = https://github.com/argos-research/taskgen
