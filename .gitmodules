@@ -1,3 +1,3 @@
 [submodule "taskgen"]
 	path = taskgen
-	url = https://github.com/argos-research/taskgen
+	url = https://www.github.com/malsami/taskgen.git
