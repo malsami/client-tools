@@ -10,3 +10,5 @@
 # Contributor: Bernhard Blieninger
 ##############################
 
+sudo brctl addbr br0
+sudo ip addr add 10.200.40.1/21 dev br0

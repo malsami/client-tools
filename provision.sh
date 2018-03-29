@@ -17,11 +17,8 @@ sudo pip3 install pynetlinux #1.1 or somewhat close with the 1.1 and everything 
 sudo pip3 install -r /vagrant/taskgen/requirements.txt
 sudo sh -c 'echo "import sys\nsys.path.append(\"/usr/local/lib/python3.5/dist-packages/pynetlinux\")\n$(cat /usr/local/lib/python3.5/dist-packages/pynetlinux/__init__.py)" > /usr/local/lib/python3.5/dist-packages/pynetlinux/__init__.py'
 sudo sh -c 'echo "auto br0\niface br0 inet dhcp\nbridge_ports eth0\nbridge_stp off\nbridge_maxwait 0\nbridge_fd 0\n" >> /etc/network/interfaces'
-sudo cp /vagrant/dhcpd.conf /etc/dhcp/
 sudo apt-get install qemu -qq
 sudo apt-get install screen -qq
 sudo apt-get install nmap isc-dhcp-server -qq
+sudo cp /vagrant/dhcpd.conf /etc/dhcp/
 sudo apt-get install htop -qq
-sudo systemctl enable isc-dhcp-server.service
-#Should be done after bridge creation
-#sudo ip addr add 10.200.45.1/24 dev br0
