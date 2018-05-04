@@ -10,20 +10,14 @@
 ######################
 sudo apt-get update -qq
 sudo apt-get install python3.5 python3-pip bridge-utils screen nmap isc-dhcp-server qemu htop pkg-config zlib1g-dev libglib2.0 libpixman-1.0 libpixman-1-dev -qq #probably needs sudo
-#sudo apt-get  install python3-pip -qq
-#mkdir -p qemu
-#cd qemu
-#wget -qO- https://download.qemu.org/qemu-2.11.1.tar.xz | tar xJ
-#cd qemu-2.11.1
-#./configure --target-list=arm-softmmu
-#make -j4
-#sudo make install
-#sudo apt-get install bridge-utils -qq
+
 sudo pip3 install -r /vagrant/taskgen/requirements.txt
 sudo pip3 install dicttoxml
-sudo sh -c 'echo "auto br0\niface br0 inet dhcp\nbridge_ports eth0\nbridge_stp off\nbridge_maxwait 0\nbridge_fd 0\n" >> /etc/network/interfaces'
-#sudo apt-get install qemu -qq
-#sudo apt-get install screen -qq
-#sudo apt-get install nmap isc-dhcp-server -qq
+sudo sh -c 'echo "\nauto br0\niface br0 inet static\n\thwaddress ether DE:AD:BE:EF:69:01\n\taddress 10.200.40.10\n\tnetmask 255.255.248.0\n\tgateway 10.200.40.10\nbridge_ports eth0\nbridge_stp off\nbridge_maxwait 0\nbridge_fd 0\n" >> /etc/network/interfaces'
+
+sudo /etc/init.d/networking restart
+
 sudo cp /vagrant/dhcpd.conf /etc/dhcp/
-#sudo apt-get install htop -qq
+
+sudo systemctl enable isc-dhcp-server
+sudo systemctl start isc-dhcp-server
