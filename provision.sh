@@ -8,6 +8,9 @@
 #
 # Contributor: Bernhard Blieninger
 ######################
+if [ $USER == "ubuntu" ] || [ $USER == "vagrant" ]; then
+  cd /vagrant
+fi
 sudo apt-get update -qq
 sudo apt-get install python3.5 python3-pip bridge-utils screen nmap isc-dhcp-server qemu htop pkg-config zlib1g-dev libglib2.0 libpixman-1.0 libpixman-1-dev -qq #probably needs sudo
 sudo pip3 install --upgrade pip
