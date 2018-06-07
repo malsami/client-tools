@@ -8,11 +8,23 @@
 #
 # Contributor: Bernhard Blieninger
 ######################
+
+# compile qemu
+QEMU_VERSION=2.12.0
+mkdir -p $HOME/Downloads/QEMU
+cd $HOME/Downloads/QEMU
+wget https://download.qemu.org/qemu-$QEMU_VERSION.tar.xz
+tar xvJf qemu-$QEMU_VERSION.tar.xz
+cd qemu-$QEMU_VERSION
+./configure --target-list=arm-softmmu
+make -j
+sudo cp arm-softmmu/qemu-system-arm /usr/local/bin/
+
 if [ $USER == "ubuntu" ] || [ $USER == "vagrant" ]; then
   cd /vagrant
 fi
 sudo apt-get update -qq
-sudo apt-get install python3.5 python3-pip bridge-utils screen nmap isc-dhcp-server qemu htop pkg-config zlib1g-dev libglib2.0 libpixman-1.0 libpixman-1-dev -qq #probably needs sudo
+sudo apt-get install python3.5 python3-pip bridge-utils screen isc-dhcp-server htop pkg-config zlib1g-dev libglib2.0 libpixman-1.0 libpixman-1-dev -qq #probably needs sudo
 sudo pip3 install --upgrade pip
 sudo pip3 install -r ./taskgen/requirements.txt
 sudo pip3 install dicttoxml
