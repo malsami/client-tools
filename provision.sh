@@ -28,7 +28,7 @@ sudo apt-get install python3.5 python3-pip bridge-utils screen isc-dhcp-server h
 sudo pip3 install --upgrade pip
 sudo pip3 install -r ./taskgen/requirements.txt
 sudo pip3 install dicttoxml
-sudo sh -c 'echo "\nauto br0\niface br0 inet static\n\thwaddress ether DE:AD:BE:EF:69:01\n\taddress 10.200.45.254\n\tnetmask 255.255.255.0\n\tgateway 10.200.45.10\nbridge_stp off\nbridge_maxwait 0\nbridge_fd 0\n" >> /etc/network/interfaces'
+sudo sh -c 'echo "\nauto br0\niface br0 inet static\n\thwaddress ether DE:AD:BE:EF:69:01\n\taddress 10.200.45.254\n\tnetmask 255.255.255.0\n\tgateway 10.200.45.254\nbridge_stp off\nbridge_maxwait 0\nbridge_fd 0\n" >> /etc/network/interfaces'
 
 sudo /etc/init.d/networking restart
 
