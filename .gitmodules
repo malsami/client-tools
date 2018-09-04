@@ -5,5 +5,4 @@
 [submodule "distributor_service"]
 	path = distributor_service
 	url = https://github.com/malsami/distributor_service.git
-[submodule "tdistributor_service"]
 	branch = master
