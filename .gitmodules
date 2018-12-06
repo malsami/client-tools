@@ -4,3 +4,6 @@
 [submodule "distributor_service"]
 	path = distributor_service
 	url = https://github.com/malsami/distributor_service.git
+[submodule "operating-system"]
+	path = operating-system
+	url = https://github.com/argos-research/operating-system
