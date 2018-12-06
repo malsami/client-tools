@@ -9,4 +9,4 @@
 [submodule "operating-system"]
 	path = operating-system
 	url = https://github.com/argos-research/operating-system
-  branch = data-generation
+  	branch = data-generation
