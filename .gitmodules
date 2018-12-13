@@ -4,3 +4,7 @@
 [submodule "distributor_service"]
 	path = distributor_service
 	url = https://github.com/malsami/distributor_service.git
+[submodule "datageneration"]
+	path = datageneration
+	url = https://www.github.com/malsami/datageneration
+	branch = master
