@@ -10,3 +10,7 @@
 	path = operating-system
 	url = https://github.com/argos-research/operating-system
   	branch = data-generation
+[submodule "datageneration"]
+	path = datageneration
+	url = https://www.github.com/malsami/datageneration
+	branch = master
