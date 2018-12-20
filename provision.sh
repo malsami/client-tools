@@ -28,12 +28,11 @@ sudo cp arm-softmmu/qemu-system-arm /usr/local/bin/
 
 if [ $USER == "ubuntu" ] || [ $USER == "vagrant" ]; then
   cd /vagrant
-  pip3 install --upgrade pip
-  pip3 install -r ./datageneration/requirements.txt > /dev/null 
-  pip3 install -r ./distributor/requirements.txt > /dev/null 
-else
-
+  sudo pip3 install --upgrade pip
+  sudo pip3 install -r ./datageneration/requirements.txt > /dev/null 
+  sudo pip3 install -r ./distributor/requirements.txt > /dev/null 
 fi
+
 sudo cp ./dhcpd.conf /etc/dhcp/
 sudo /etc/init.d/networking restart
 
