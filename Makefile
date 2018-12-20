@@ -1,35 +1,105 @@
 # will setup everything for demonstration in vagrant
-all: distributor genode binaries #datageneration
-	# should clone all the repos and build an operating system for pbxa9, then should vagrant up
-	make vagrant
+all: 
+	# should clone all the repos and build an operating system for pbxa9, then should vagrant up 
+	-make venv
+	make distributor
+	make genode
+	make binaries OS-TARGET=focnados_pbxa9
+	make datageneration
+	#-make packages
+	-make vagrant
 
-distributor: taskgen
-	# should clone the distributor_service repo and install dependencies (including the taskgen)
+distributor: taskgen 
+	# clones the distributor_service repo and installs dependencies in venv(including the taskgen)
+	@-make venv
 	@git submodule update --init --remote distributor_service
-	# todo install dependencies in pyenv
+	@-bash -c "source malsami/bin/activate; pip3 install -r ./distributor_service/requirements.txt > /dev/null ; deactivate"
 
 taskgen:
-	# should clone taskgen repo and install dependencies
+	# should clone taskgen repo, there are no dependencies
 	@git submodule update --init --remote taskgen
-	# todo install dependencies in pyenv
 
 datageneration:
-	# should clone datageneration and install dependencies
+	# clones datageneration and installs dependencies in venv
+	@-make venv
 	@git submodule update --init --remote datageneration
-	# todo install dependencies in pyenv
+	@-bash -c "source malsami/bin/activate; pip3 install -r ./datageneration/requirements.txt > /dev/null ; deactivate"
 
 genode: 
 	# should clone operating system and build genode for specified arg
 	@git submodule update --init --remote operating-system
 	cd operating-system; make packages
 
-binaries:#takes target as arg
-	# should build operating system and taskbinaries and put them into the bin folder in client-tools
-	cd operating-system; ./setup.sh focnados_pbxa9 # should take target
+binaries:
+	# TARGET=focnados_pbxa9, focnados_panda, focnados_...
+	# should build operating system and taskbinaries and put them into ./bin
+ifdef OS-TARGET
+	cd operating-system; ./setup.sh $(OS-TARGET)
+else
+	@echo "there was no target, provide one via 'OS-TARGET=...'"
+endif
 
-vagrant:
-	@vagrant up
-	@vagrant ssh
+venv: notInVagrant
+	#this installs python3-venv (if not already installed) and creates a venv called malsami
+	make install-PKG PKG=python3-venv ASK=NO
+	python3 -m venv malsami
+	@bash -c "source malsami/bin/activate; pip3 install --upgrade pip ; deactivate"
+
+inVagrant:
+	# is successful if user is vagrant or ubuntu
+	@if [ $(USER) = "ubuntu" ] || [ $(USER) = "vagrant" ]; then \
+		true; \
+	else \
+		false; \
+	fi
+
+notInVagrant:
+	# is successful if NOT in the directory /vagrant
+	@PATH=$$(pwd); \
+	if [ "$$PATH" = "/vagrant" ]; then \
+		false; \
+	else \
+		true; \
+	fi
+
+vagrant: notInVagrant
+	# installs vagrant (if not already installed) and starts the vagrant machine and logs into it
+	make install-PKG PKG=vagrant ASK=NO
+	vagrant up
+	vagrant ssh
+
+install-PKG: install-PKG-confirm
+ifdef PKG
+	@PKG_IS_INSTALLED=$$(dpkg-query -W --showformat='$${Status}\n' $(PKG)|grep "install ok installed"); \
+	if [ -z "$$PKG_IS_INSTALLED" ]; then  \
+		echo "$(PKG) is not installed yet, will install ..."; \
+		sudo apt-get --force-yes --yes install $(PKG); \
+	else \
+		echo "$(PKG) is already installed"; \
+	fi
+else
+	@echo "PKG missing, declare package like PKG='package'"
+endif
+
+install-PKG-confirm:
+	#asks for permission to install if ASK is not YES
+ifdef PKG
+ifeq ($(ASK), YES)
+	@( read -p "This will install $(PKG) Are you sure?!? [Y/n]: " sure && case "$$sure" in [nN]) false;; *) true;; esac )
+else
+	true
+endif
+else
+	@echo "PKG missing, declare package like PKG='package'"
+	false
+endif
+
+packages: notInVagrant
+	sudo apt-get update -qq 
+	@for pkg in python3.5 python3-pip bridge-utils screen isc-dhcp-server htop pkg-config zlib1g-dev libglib2.0 libpixman-1.0 libpixman-1-dev; do \
+		echo "$$pkg"; \
+		make install-PKG PKG="$$pkg" ASK=NO ; \
+	done
 
 #dependencies: dependencies-confirm
 	#should install the dependencies for the whole setup in pyenv
