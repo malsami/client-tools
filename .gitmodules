@@ -2,9 +2,9 @@
 	path = taskgen
 	url = https://www.github.com/malsami/taskgen.git
 	branch = master
-[submodule "distributor_service"]
-	path = distributor_service
-	url = https://github.com/malsami/distributor_service.git
+[submodule "distributor"]
+	path = distributor
+	url = https://www.github.com/malsami/distributor
 	branch = master
 [submodule "operating-system"]
 	path = operating-system
