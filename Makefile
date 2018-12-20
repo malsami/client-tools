@@ -101,8 +101,14 @@ packages: notInVagrant
 		make install-PKG PKG="$$pkg" ASK=NO ; \
 	done
 
-#dependencies: dependencies-confirm
-	#should install the dependencies for the whole setup in pyenv
-
-#dependencies-confirm:
-	#@( read -p "This will install qemu12, bridge-utils, screen, isc-dhcp-server, htop, pkg-config, zlib1g-dev, libglib2.0, libpixman-1.0, libpixman-1-dev Are you sure?!? [Y/n]: " sure && case "$$sure" in [nN]) false;; *) true;; esac )
+qemu:
+	# compile qemu
+	@QEMU_VERSION=2.12.0; \
+	mkdir -p $$HOME/Downloads/QEMU; \
+	cd $$HOME/Downloads/QEMU; \
+	wget -q https://download.qemu.org/qemu-$$QEMU_VERSION.tar.xz; \
+	tar xvJf qemu-$$QEMU_VERSION.tar.xz; \
+	cd qemu-$$QEMU_VERSION; \
+	./configure --target-list=arm-softmmu; \
+	make; \
+	sudo cp arm-softmmu/qemu-system-arm /usr/local/bin/
