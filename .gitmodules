@@ -4,7 +4,7 @@
 	branch = master
 [submodule "distributor"]
 	path = distributor
-	url = https://github.com/malsami/distributor.git
+	url = https://www.github.com/malsami/distributor
 	branch = master
 [submodule "operating-system"]
 	path = operating-system
