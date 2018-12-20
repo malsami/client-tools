@@ -2,30 +2,30 @@
 all: 
 	# should clone all the repos and build an operating system for pbxa9, then should vagrant up 
 	-make venv
-	make distributor
-	make genode
+	make distributor-init
+	make genode-init
 	make binaries OS-TARGET=focnados_pbxa9
 	make datageneration
 	#-make packages
 	-make vagrant
 
-distributor: taskgen 
+distributor-init: taskgen-init
 	# clones the distributor_service repo and installs dependencies in venv(including the taskgen)
 	@-make venv
 	@git submodule update --init --remote distributor
 	@-bash -c "source malsami/bin/activate; pip3 install -r ./distributor/requirements.txt > /dev/null ; deactivate"
 
-taskgen:
+taskgen-init:
 	# should clone taskgen repo, there are no dependencies
 	@git submodule update --init --remote taskgen
 
-datageneration:
+datageneration-init:
 	# clones datageneration and installs dependencies in venv
 	@-make venv
 	@git submodule update --init --remote datageneration
 	@-bash -c "source malsami/bin/activate; pip3 install -r ./datageneration/requirements.txt > /dev/null ; deactivate"
 
-genode: 
+genode-init: 
 	# should clone operating system and build genode for specified arg
 	@git submodule update --init --remote operating-system
 	cd operating-system; make packages
