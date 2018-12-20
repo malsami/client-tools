@@ -12,8 +12,8 @@ all:
 distributor: taskgen 
 	# clones the distributor_service repo and installs dependencies in venv(including the taskgen)
 	@-make venv
-	@git submodule update --init --remote distributor_service
-	@-bash -c "source malsami/bin/activate; pip3 install -r ./distributor_service/requirements.txt > /dev/null ; deactivate"
+	@git submodule update --init --remote distributor
+	@-bash -c "source malsami/bin/activate; pip3 install -r ./distributor/requirements.txt > /dev/null ; deactivate"
 
 taskgen:
 	# should clone taskgen repo, there are no dependencies
