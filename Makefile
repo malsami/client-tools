@@ -4,10 +4,10 @@ all:
 	-make venv
 	make distributor-init
 	make genode-init
-	make binaries OS-TARGET=focnados_pbxa9
+	make binaries OS-TARGET=focnados_pbxa9 CHECKOUT-VERSION=18.02
 	make datageneration
 	#-make packages
-	-make vagrant
+	#-make vagrant
 
 distributor-init: taskgen-init
 	# clones the distributor_service repo and installs dependencies in venv(including the taskgen)
@@ -34,7 +34,7 @@ binaries:
 	# TARGET=focnados_pbxa9, focnados_panda, focnados_...
 	# should build operating system and taskbinaries and put them into ./bin
 ifdef OS-TARGET
-	cd operating-system; ./setup.sh $(OS-TARGET)
+	cd operating-system; ./setup.sh $(OS-TARGET) $(CHECKOUT-VERSION)
 else
 	@echo "there was no target, provide one via 'OS-TARGET=...'"
 endif
